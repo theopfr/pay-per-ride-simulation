@@ -1,0 +1,126 @@
+@import './variables.css';
+
+.route {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+@keyframes move-animation {
+    0% { 
+        transform: translateX(0) 
+    }
+    100% { 
+        transform: translateX(180px) 
+    }
+}
+
+.train-icon {
+    position: relative;
+    margin-bottom: 70px;  
+    margin-left: -53px;
+    left: var(--start-left);
+    transition: 3s ease-in-out;
+}
+
+.train-animate {
+    animation-name: move-animation;
+    animation-duration: 5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 5;
+}
+
+.route-line {
+    position: absolute;
+    top: calc(50% - 50px);
+    height: 100px;
+    width: 900px;
+    left: calc(50% - 450px);
+    right: 150px;
+    display: flex;
+    align-items: center;
+}
+
+.route-stations {
+    position: absolute;
+    top: calc(50% - 15px);
+    left: -15px;
+    right: -15px;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+.station {
+    width: 30px;
+    height: 30px;
+    background-color: #D9D9D9;
+    border-radius: 100%;
+    margin-right: 10px;
+    margin: 0px;
+    z-index: 10;
+
+}
+
+.station-name {
+    position: absolute;
+    top: 60px;
+    margin: -20px;
+    color: #aaaaaa;
+    font-size: 17px;
+}
+
+.station-connection {
+    position: absolute;
+    height: 4px;
+    background-color: #D9D9D9;
+    left: 0px;
+    right: 0px;
+    z-index: 5;
+}
+
+.route-actions {
+    position: absolute;
+    width: 250px;
+    left: calc(50% - 125px);
+    height: 50px;
+    bottom: 150px;
+}
+
+.route-action {
+    position: relative;
+    height: 100%;
+    width: 45%;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 900;
+    border-radius: 7px;
+    transition: all 0.3s ease;
+}
+
+#get-in {
+    border: solid 4px #42EBB8;
+    background-color: #42EBB8;
+    color: #FFFFFF;
+}
+
+#get-out {
+    border: solid 4px #42EBB8;
+    background-color: transparent;
+    color: #42EBB8;
+}
+
+.route-action:hover {
+    box-shadow: 0 0 8px #42ebb8;
+    transition: all 0.3s ease;
+}
+
+.route-action:active {
+    box-shadow: 0 0 14px #42ebb8;
+    transition: all 0.3s ease;
+}

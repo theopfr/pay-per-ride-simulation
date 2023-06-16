@@ -1,0 +1,86 @@
+@import './variables.css';
+
+
+.phone {
+    position: absolute;
+    top: 25px;
+    bottom: 25px;
+    left: 25px;
+    right: 25px;
+    background-color: white;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+    border-radius: 30px;
+}
+
+.phone-header {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 107px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    background-color: #F8F8F8;
+}
+
+.welcome-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 200px;
+    margin: 0px;
+    font-size: 24px;
+    color: #4B4B4B;
+}
+
+.settings-icon {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    width: 23px;
+}
+
+.account-icon {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 25px;
+}
+
+.your-rides {
+    position: absolute;
+    top: 112px;
+    left: 20px;
+    font-size: 17px;
+    color: #4B4B4B;
+}
+
+.ride-cards {
+    position: absolute;
+    top: 150px;
+    left: 0px;
+    right: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    bottom: 20px;
+    border-top: solid 2px #F8F8F8;
+    overflow: auto;
+    border-radius: 30px;
+    scrollbar-width: 0px;
+    scrollbar-color: transparent transparent;
+}
+
+.ride-cards::-webkit-scrollbar {
+  width: 0px;
+}
+
+.ride-cards::-webkit-scrollbar-track {
+  background-color: transparent;
+  background-color: transparent;
+}
+
+.ride-cards::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  padding: 0px;
+}

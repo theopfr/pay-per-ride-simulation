@@ -1,0 +1,20 @@
+@import './variables.css';
+
+
+.phone-container {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  height: 650px;
+  width: 350px;
+  background-color: #fafafa;
+}
+
+.train-ride-container {
+  position: absolute;
+  left: 390px;
+  top: 20px;
+  height: 650px;
+  width: calc(100% - 410px);
+  background-color: #fafafa;
+}
