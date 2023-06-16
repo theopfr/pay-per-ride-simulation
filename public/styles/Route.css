@@ -8,28 +8,12 @@
     width: 100%;
 }
 
-@keyframes move-animation {
-    0% { 
-        transform: translateX(0) 
-    }
-    100% { 
-        transform: translateX(180px) 
-    }
-}
-
 .train-icon {
     position: relative;
     margin-bottom: 70px;  
     margin-left: -53px;
     left: var(--start-left);
-    transition: 3s ease-in-out;
-}
-
-.train-animate {
-    animation-name: move-animation;
-    animation-duration: 5s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: 5;
+    transition: 2s ease-in-out;
 }
 
 .route-line {
@@ -63,7 +47,11 @@
     margin-right: 10px;
     margin: 0px;
     z-index: 10;
+}
 
+.station-active {
+    background-color: #42ebb8;
+    box-shadow: 0 0 14px #42ebb8;
 }
 
 .station-name {
