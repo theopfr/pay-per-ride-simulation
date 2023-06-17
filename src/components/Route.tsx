@@ -46,36 +46,51 @@ const TrainAnimation = (props: any) => {
 
 
 
-export default function Route() {
-
+export default function Route(props: any) {
+    // the idx of the station the train is currently at
     let [activeStationIdx, setActiveStationIdx] = useState<number>(0);
+    // the "left" position of the train (distance to left border)
     let [trainLeftPosition, setTrainLeftPosition] = useState<number>(0);
+    // true, when the train is waiting at a station, else false
     let [trainWaiting, setTrainWaiting] = useState<boolean>(false);
+    // stores the distance the train can move (180 to right, or -180 to left)
     let [trainMovementDelta, setTrainMovementDelta] = useState<number>(180);
+    // stores the value for counting stations (1 if the train does right, -1 if it goes left)
     let [trainStationDelta, setTrainStationDelta] = useState<number>(1);
+    // stores the value for counting stations (1 if the train does right, -1 if it goes left)
+    let [userInTrain, setUserInTrain] = useState<boolean>(false);
+    // stores amount of stations the user has driven in the train
+    let [userStationAmount, setUserStationAmount] = useState<number>(0);
 
-    let stations: String[] = ["Station A", "Station B", "Station C", "Station D", "Station E", "Station F"]
+    let [journeyDateTimes, setJourneyDateTimes] = useState<{startTime: Date, endTime: Date}>({startTime: new Date(), endTime: new Date()});
+    let [journeyStations, setJourneyStations] = useState<{startStation: String, endStation: String}>({startStation: "", endStation: ""})
+
+    const STATIONS: String[] = ["Station A", "Station B", "Station C", "Station D", "Station E", "Station F"]
+
+    const PRICE_PER_STATION = 1.0;
+    const PRICE_CAP = 3.0;
 
 
-
-    /*let interval = setInterval(() => {
-        setTrainLeftPosition(trainLeftPosition + 180);
-        setActiveStationIdx(activeStationIdx + 1);
-        setTrainWaiting(false)
-    }, 4000);*/
-
-    
     useEffect(() => {
-        setTrainWaiting(true);
-    }, []);
+        if (!userInTrain) {
+            props.getNewJourney({
+                isActive: false,
+                startTime: journeyDateTimes.startTime.toLocaleString(),
+                endTime: journeyDateTimes.endTime.toLocaleString(),
+                startStation: journeyStations.startStation,
+                endStation: journeyStations.endStation,
+                stationAmount: userStationAmount,
+                price: Math.min(userStationAmount * PRICE_PER_STATION, PRICE_CAP)
+            });
+            setUserStationAmount(0);
+        }
+    }, [userInTrain]);
 
     useEffect(() => {
         let interval: NodeJS.Timer;
         interval = setInterval(() => {
         
-        // I HAVE NO IDEA WHAT I DID HERE IM SO SORRYY
-
-        // handle train animation movement
+        // handle train animation movement direction
         if (activeStationIdx == 4) {
             setTrainMovementDelta(-180);
         }
@@ -91,10 +106,14 @@ export default function Route() {
             setTrainStationDelta(1);
         }
 
-        setActiveStationIdx(activeStationIdx => activeStationIdx + trainStationDelta)
-        console.log(activeStationIdx, trainMovementDelta);
+        // count amount of stations driven
+        if (userInTrain) {
+            setUserStationAmount(amount => amount + 1);
+        }
 
+        setActiveStationIdx(activeStationIdx => activeStationIdx + trainStationDelta);
         setTrainWaiting(true);
+
         setTimeout(() => {
             setTrainWaiting(false);
             setTrainLeftPosition(prevPosition => prevPosition + trainMovementDelta);
@@ -105,35 +124,73 @@ export default function Route() {
     }, [trainWaiting])
 
 
+    const handlePrice = () => {
+        if (!userInTrain) {
+            return "-";
+        }
 
+        if ((userStationAmount * PRICE_PER_STATION) >= PRICE_CAP) {
 
-
+            return `${PRICE_CAP}€`; 
+        }
+        return `${userStationAmount * PRICE_PER_STATION}€`;
+    }
 
     return (
         <div className="route">
+            <div className="route-informations">
+                <div className="route-information">
+                    <p className="route-information-title">Preis pro Station:</p>
+                    <p className="route-information-data">{`${PRICE_PER_STATION}€`}</p>
+                </div>
+                <div className="route-information">
+                    <p className="route-information-title">Nutzer fährt:</p>
+                    <p className={"route-information-data " + (!userInTrain ? "info-grayed" : null)}>
+                        {userInTrain ? "ja" : "nein"}
+                    </p>
+                </div>
+                <div className="route-information">
+                    <p className="route-information-title">Anzahl gefahrener Stationen:</p>
+                    <p className={"route-information-data " + (userStationAmount === 0 ? "info-grayed" : null)}>
+                        {userStationAmount}
+                    </p>
+                </div>
+                <div className="route-information">
+                    <p className="route-information-title">Momentane Kosten:</p>
+                    <p className={"route-information-data " + (!userInTrain ? "info-grayed" : null)}>
+                        {handlePrice()}
+                    </p>
+                </div>
+                <div className="route-information">
+                    <p className="route-information-title">Kostendeckel erreicht:</p>
+                    <p className={"route-information-data " + ((userStationAmount * PRICE_PER_STATION) < PRICE_CAP ? "info-grayed" : null)}>
+                        {(userStationAmount * PRICE_PER_STATION) < PRICE_CAP ? "ja": "nein"}
+                    </p>
+                </div>
+            </div>
+
             <div className="route-line">
                 <TrainAnimation startLeft={trainLeftPosition}/>
 
                 <div className="route-stations">
-                    {
-                        stations.map((stationName: String, idx: number) => {
-                            return <Station stationIsActive={idx == activeStationIdx - 1 && trainWaiting} stationName={stationName}/>
-                        })
-                    }
+                    {STATIONS.map((stationName: String, idx: number) => {
+                        return <Station stationIsActive={idx == activeStationIdx - 1 && trainWaiting} stationName={stationName}/>
+                    })}
                 </div>
                 <div className="station-connection"/>
             </div>
 
             <div className="route-actions">
-                <button className="route-action" id="get-in" onClick={() => {
-                    if (trainWaiting) {
-                        console.log("waiting")
-                    }
-                    else {
-                        console.log("driving")
-                    }
-                }}>{trainWaiting ? "wait" : "get in"}</button>
-                <button className="route-action" id="get-in" style={{float: "right"}}>aussteigen</button>
+                <button className="route-action" disabled={!trainWaiting || userInTrain} onClick={() => {
+                    setUserInTrain(true);
+                    setJourneyDateTimes(dateTimes => ({ ...dateTimes, startTime: new Date() }));
+                    setJourneyStations(stations => ({ ...stations, startStation: STATIONS[activeStationIdx - 1] }));
+                }}>einsteigen</button>
+                <button className="route-action" disabled={!trainWaiting || !userInTrain} style={{float: "right"}}onClick={() => {
+                    setUserInTrain(false);
+                    setJourneyDateTimes(dateTimes => ({ ...dateTimes, endTime: new Date(dateTimes.startTime.getTime() + 3*60000) }));
+                    setJourneyStations(stations => ({ ...stations, endStation: STATIONS[activeStationIdx - 1] }));
+                }}>aussteigen</button>
             </div>
         </div>
     )

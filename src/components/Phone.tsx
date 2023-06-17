@@ -9,10 +9,19 @@ function RideCard(props: any) {
     let informationImage: string = onGoing ? "images/information-icon-white.svg" : "images/information-icon.svg"
     let connectionImage: string = onGoing ? "images/connection-icon-ongoing.svg" : "images/connection-icon.svg"
 
+    let [times, setTimes] = useState<{startTime: String, endTime: String}>();
+
+    useEffect(() => {
+        setTimes({
+            startTime: props.rideData.startTime.slice(0, -6).replace(/\//g, ".").replace(",", ""),
+            endTime: props.rideData.rideOnGoing ? "laufend" : props.rideData.endTime.split(", ")[1].slice(0, -6).replace(/\//g, ".")
+        })
+    }, []);
+
     return (
         <div className={onGoing ? "ride-card-ongoing" : "ride-card"}>
             <img className="information-icon" src={informationImage} />
-            <p style={colorStyle} className="date-time-info">{props.rideData.dateTime}</p>
+            <p style={colorStyle} className="date-time-info">{`${times?.startTime} - ${times?.endTime}`}</p>
             <div className="station-info">
                 <p style={colorStyle} className="start-station-info">{props.rideData.startStation}</p>
                 <img className="connection-icon" src={connectionImage} />
@@ -27,7 +36,7 @@ function RideCard(props: any) {
                 <p className="price-info">
                     Price:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <span style={{ color: "#42EBB8" }}>&nbsp;{props.rideData.price}</span>
-                    <span style={{ color: "#D4D4D4" }}>&nbsp;&nbsp;&nbsp;/ max{props.rideData.maxPrice}</span>
+                    <span style={{ color: "#D4D4D4" }}>&nbsp;&nbsp;&nbsp;/ max {props.rideData.maxPrice}</span>
                 </p>
             : null }
         </div>
@@ -46,80 +55,7 @@ export default function Phone(props: any) {
         stationAmount: number;
         price: string;
         maxPrice: string;
-      }      
-
-    let [rideData, setRideData] = useState<RideData[]>([]);
-
-    const cards: RideData[] = [
-        {   
-            rideOnGoing: true,
-            dateTime: "heute: 08:42 - laufend",
-            startStation: "Station A",
-            endStation: "Station B",
-            stationAmount: 3,
-            price: "3.30€",
-            maxPrice: "3.70€"
-        },
-        {
-            rideOnGoing: false,
-            dateTime: "06.06.2023 08:42-09:01",
-            startStation: "Station A",
-            endStation: "Station B",
-            stationAmount: 3,
-            price: "3.30€",
-            maxPrice: "3.70€"
-        },
-        {
-            rideOnGoing: false,
-            dateTime: "06.06.2023 08:42-09:01",
-            startStation: "Station A",
-            endStation: "Station B",
-            stationAmount: 3,
-            price: "3.30€",
-            maxPrice: "3.70€"
-        },
-        {
-            rideOnGoing: false,
-            dateTime: "06.06.2023 08:42-09:01",
-            startStation: "Station A",
-            endStation: "Station B",
-            stationAmount: 3,
-            price: "3.30€",
-            maxPrice: "3.70€"
-        },
-        {
-            rideOnGoing: false,
-            dateTime: "06.06.2023 08:42-09:01",
-            startStation: "Station A",
-            endStation: "Station B",
-            stationAmount: 3,
-            price: "3.30€",
-            maxPrice: "3.70€"
-        },
-        {
-            rideOnGoing: false,
-            dateTime: "06.06.2023 08:42-09:01",
-            startStation: "Station A",
-            endStation: "Station B",
-            stationAmount: 3,
-            price: "3.30€",
-            maxPrice: "3.70€"
-        },
-        {
-            rideOnGoing: false,
-            dateTime: "06.06.2023 08:42-09:01",
-            startStation: "Station A",
-            endStation: "Station B",
-            stationAmount: 3,
-            price: "3.30€",
-            maxPrice: "3.70€"
-        }
-    ];
-
-    useEffect(() => {
-        setRideData(cards);
-    }, [])
-
+    }      
 
     return (
         <div className="phone">
@@ -131,7 +67,7 @@ export default function Phone(props: any) {
             <h1 className="your-rides">Deine Fahrten:</h1>
             <div className="ride-cards">
                 {
-                    rideData.map((card: any) => {
+                    props.allJourneys.map((card: any) => {
                         return  <RideCard rideData={card}/>
                     })
                 }
