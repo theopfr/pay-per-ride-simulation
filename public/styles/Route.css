@@ -118,6 +118,33 @@
     box-shadow: none;
 }
 
+.price-informations {
+    position: absolute;
+    top: 25px;
+    left: 350px;
+    height: auto;
+    padding-bottom: 11px;
+    width: 300px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+}
+
+.price-cap-status {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    background-color: #F8F8F8;
+    border-radius: 100%;
+}
+
+.price-capped {
+    background-color: #42EBB8;
+    box-shadow: 0 0 8px #42ebb8;
+}
+
 .route-informations {
     position: absolute;
     top: 25px;
@@ -168,5 +195,5 @@
 }
 
 .info-grayed {
-    color: #b6b6b6;
+    color: #B6B6B6;
 }

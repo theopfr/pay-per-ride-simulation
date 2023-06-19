@@ -1,32 +1,28 @@
 import { useEffect, useState } from "react";
 import Phone from "./components/Phone";
 import Route from "./components/Route";
+import { RideData } from "./components/RideDataInterface";
 
 function App() {
+    
+	const PRICE_CAP_RIDE: number = 3.0;
+    const PRICE_CAP_DAY = 8.8;
+    const PRICE_CAP_WEEK = 20.20;
+    const PRICE_CAP_MONTH = 20.20;
 
-	interface RideData {
-        rideOnGoing: boolean,
-        startTime: string;
-		endTime: string;
-        startStation: string;
-        endStation: string;
-        stationAmount: number;
-        price: number;
-        maxPrice: number;
-    }
-
-	const PRICE_CAP: number = 3.0;
-
-	const allJourneys: RideData[] = [
+    // initial example journeys
+	const EXAMPLE_JOURNEYS: RideData[] = [
         {   
-            rideOnGoing: true,
+            rideOnGoing: false,
             startTime: "6/17/2023, 3:46:33 PM",
 			endTime: "6/17/2023, 3:49:33 PM",
             startStation: "Station A",
             endStation: "Station B",
             stationAmount: 1,
             price: 1.0,
-            maxPrice: PRICE_CAP
+            maxPrice: PRICE_CAP_RIDE,
+            priceCapReached: false,
+            id: 1,
         },
         {
             rideOnGoing: false,
@@ -36,28 +32,39 @@ function App() {
             endStation: "Station D",
             stationAmount: 3,
             price: 3,
-            maxPrice: PRICE_CAP
+            maxPrice: PRICE_CAP_RIDE,
+            priceCapReached: false,
+            id: 0
         }
     ];
 
+    let [journeyData, setJourneyData] = useState<RideData[]>(EXAMPLE_JOURNEYS);
+    let [currentJourneyId, setCurrentJourneyIdx] = useState<number>(3);
 
-	let [journeyData, setJourneyData] = useState();
+    // handle new journeys
+	const addNewRideHandler = (newJourneyData: RideData) => {
+        // if a journey has been finished, update the last journey
+        if (!newJourneyData.rideOnGoing) {
+            let updatedJourneyData = [...journeyData];
+            newJourneyData.rideOnGoing = false;
+            
+            updatedJourneyData[0] = newJourneyData;
 
-	const getNewRideHandler = (rideData: any) => {
-		setJourneyData(rideData);
+            setJourneyData(updatedJourneyData);
+            setCurrentJourneyIdx(previousIdx => previousIdx + 1)
+        }
+        else {
+            setJourneyData(prev => [newJourneyData, ...prev]); 
+        } 
 	}
-	
-	useEffect(() => {
-		console.log(journeyData)
-	}, [journeyData])
 
 	return (
 		<div className="App">
 			<div className="phone-container">
-				<Phone allJourneys={allJourneys}/>
+				<Phone journeys={journeyData}/>
 			</div>
 			<div className="train-ride-container">
-				<Route getNewJourney={(rideData: any) => { getNewRideHandler(rideData) }} />
+				<Route addNewJourney={(rideData: RideData) => { addNewRideHandler(rideData) }} nextId={currentJourneyId}/>
 			</div>
 		</div>
 	);
