@@ -54,7 +54,7 @@
     margin: 0px;
 }
 
-.station-amout-info {
+.station-amount-info {
     font-size: 12px;
     color: #D4D4D4;
     margin: 0px;
@@ -68,6 +68,11 @@
     font-size: 12px;
 }
 
+.final-price {
+    font-size: 20px;
+    font-weight: 500;
+}
+
 /* ride ongoing */
 
 .ride-card-ongoing {
@@ -78,4 +83,35 @@
     background-color: #42EBB8;
     margin-bottom: 12px;
     box-shadow: 0 0 8px #42ebb8;
+}
+
+.price-info {
+    position: relative;
+    top: 13px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    left: 10px;
+    width: calc(100 - 40%);
+    margin: 0px;
+}
+
+.price-title {
+    color: #4B4B4B;
+    font-size: 12px;
+    padding-right: 19px;
+}
+
+.price-amount {
+    color: #42EBB8;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0px;
+    margin-top: 6px;
+}
+
+.price-max {
+    color: #D4D4D4;
+    font-size: 12px;
+    padding-right: 19px;
 }

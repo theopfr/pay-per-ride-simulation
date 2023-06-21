@@ -22,19 +22,16 @@ function RideCard(props: { journeyData: RideData }) {
                 { !onGoing ?
                     <>
                     <p style={colorStyle} className="end-station-info">{props.journeyData.endStation}</p>
-                    <p className="station-amout-info">insg.: {props.journeyData.stationAmount}</p>
+                    <p className="station-amount-info">insg.: {props.journeyData.stationAmount}</p>
                     </>
                 : null }
             </div>
             { !onGoing ?
-                <p className="price-info">
-                    Preis:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span style={{ color: "#42EBB8" }}>&nbsp;{props.journeyData.price}€</span>
-                    { props.journeyData.priceCapReached ?
-                        <span style={{ color: "#D4D4D4" }}>&nbsp;&nbsp;&nbsp;&#40;Tagespreisdeckel erreicht&#41;</span> :
-                        <span style={{ color: "#D4D4D4" }}>&nbsp;&nbsp;&nbsp;/ max {props.journeyData.maxPrice}€</span>
-                    }
-                </p>
+                <div className="price-info">
+                    <p className="price-title">Preis:</p>
+                    <p className="price-amount">{props.journeyData.price}€</p>
+                    <p className="price-max">/ max {props.journeyData.maxPrice}€</p>
+                </div>
             : null }
         </div>
     )
@@ -53,7 +50,7 @@ export default function Phone(props: { journeys: RideData[] }) {
                     props.journeys[0].rideOnGoing ? <img className="bluetooth-icon" src="images/bluetooth-icon.svg"></img>
                     : null
                 }
-                <h1 className="welcome-text">Hallo, <span style={{ color: "#42EBB8" }}>{"Julia!"}</span></h1>
+                <h1 className="welcome-text">Hallo, <span style={{ color: "#42EBB8" }}>User!</span></h1>
             </div>
             <h1 className="your-rides">Deine Fahrten:</h1>
             <div className="ride-cards">

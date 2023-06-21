@@ -51,7 +51,7 @@ export default function Route(props: any) {
 
     const PRICE_PER_STATION = 1.0;
     const PRICE_CAP_RIDE = 3.0;
-    const PRICE_CAP_DAY = 5.0;
+    const PRICE_CAP_DAY = 8.0;
     const PRICE_CAP_WEEK = 20.20;
     const PRICE_CAP_MONTH = 20.20;
 
@@ -128,7 +128,6 @@ export default function Route(props: any) {
                 setTrainStationDelta(1);
             }
 
-            // set 
             setActiveStationIdx(activeStationIdx => activeStationIdx + trainStationDelta);
             setTrainWaiting(true);
 
@@ -145,7 +144,6 @@ export default function Route(props: any) {
 
                 // ... if neither the daily cap nor journey cap is reached, update the prices
                 if (!dailyCapReached && !journeyCapReached) {
-                    console.log("huhuhuh")
                     setTotalDayPrice(prevPrice => prevPrice + PRICE_PER_STATION);
                     setTotalJourneyPrice(prevPrice => prevPrice + PRICE_PER_STATION);
                 }
