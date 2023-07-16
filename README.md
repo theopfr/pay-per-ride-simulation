@@ -21,6 +21,6 @@
    npm start
    ```
 
-The webapp now runs at ```http://localhost:8000``` or in your local network at ```http://192.168.2.103:3000```.
+The webapp now runs at ```http://localhost:8000```.
 
 
